@@ -110,7 +110,7 @@ public class Walker : Behaviour {
 			if(dx > 0){
 				f.x = -maxSpeed;
 			}
-			if(dy < -1.5 && Mathf.Abs(dx) > 2f && Mathf.Abs(dx) < 3.5f) Jump();
+			if(dy < -1.5 && Mathf.Abs(dx) > 2f && Mathf.Abs(dx) < 4f) Jump();
 			f *= Time.deltaTime * 100;
 			if(rigidbody2D.velocity.magnitude < maxSpeed)
 				rigidbody2D.AddForce (f);
@@ -126,7 +126,7 @@ public class Walker : Behaviour {
 
 	private void Jump(){
 
-		if(IsGrounded()) rigidbody2D.AddForce (Vector2.up * jumpHeight * Time.deltaTime * 1000);
+		if(IsGrounded()) rigidbody2D.AddForce (Vector2.up * jumpHeight * Time.deltaTime * 1000 + rigidbody2D.velocity);
 	}
 
 	//if the npc is grounded, return true;

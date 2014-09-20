@@ -18,7 +18,8 @@ public class Walker : Behaviour {
 		}
 	void Start(){
 		DYPerFrames = new ArrayList ();
-		state = Behaviour.States.Idle;
+		state = Behaviour.States.Attacking;
+		target = GameObject.FindGameObjectWithTag ("Player");
 		grounded = true;
 	}
 	public override void Tick(){
@@ -27,7 +28,7 @@ public class Walker : Behaviour {
 		if (DYPerFrames.Count > 3)
 						DYPerFrames.RemoveAt (3);
 		if (!grounded) {
-			grounded = (ArrSum(DYPerFrames) < .00001f);
+			grounded = (ArrMax(DYPerFrames) < .00001f);
 		}
 		//update based on state
 		if (state == Behaviour.States.Idle) {
@@ -43,6 +44,7 @@ public class Walker : Behaviour {
 			Running ();
 		}
 	}
+#region Idle
 	public override bool Idle(){
 		//walk left and right based on MARKOV CHAIN algorithm
 		float r = Random.value;
@@ -87,21 +89,31 @@ public class Walker : Behaviour {
 			}
 			break;
 		}
-		Jump ();
 		f *= Time.deltaTime * 100;
 		if(rigidbody2D.velocity.magnitude < maxSpeed/2)
 			rigidbody2D.AddForce (f);
 		return true;
 	}
+#endregion
+
 	public override bool Attacking(){
+
 		if(target != null){
 			Vector2 f = new Vector2();
 			float dy = rigidbody2D.position.y - target.rigidbody2D.position.y;
 			float dx = rigidbody2D.position.x - target.rigidbody2D.position.x;
 
+			//horizontal speed
 			if(dx < 0){
-
+				f.x = maxSpeed;
 			}
+			if(dx > 0){
+				f.x = -maxSpeed;
+			}
+			if(dy < -1.5 && Mathf.Abs(dx) > 2f && Mathf.Abs(dx) < 3.5f) Jump();
+			f *= Time.deltaTime * 100;
+			if(rigidbody2D.velocity.magnitude < maxSpeed)
+				rigidbody2D.AddForce (f);
 		}
 		return true;
 	}
@@ -114,22 +126,22 @@ public class Walker : Behaviour {
 
 	private void Jump(){
 
-		if(grounded) rigidbody2D.AddForce (Vector2.up * jumpHeight * Time.deltaTime * 300);
-		grounded = false;
+		if(IsGrounded()) rigidbody2D.AddForce (Vector2.up * jumpHeight * Time.deltaTime * 1000);
 	}
 
 	//if the npc is grounded, return true;
 	public bool IsGrounded(){
-		return grounded;
+		return Physics2D.Raycast (rigidbody2D.position, -Vector2.up, .65f);
 	}
 
-	//returns the float sum of a given arraylist
-	private float ArrSum(ArrayList l){
-		float sum = 0;
+	//returns the float max of a given arraylist
+	private float ArrMax(ArrayList l){
+		float max = 0;
 		int len = l.Count;
 		for (int i = 0; i < len; ++i) {
-			sum += (float)l[i];
+			max = Mathf.Max((float)l[i], max);
 		}
-		return sum / len;
+		print (max);
+		return max;
 	}
 }

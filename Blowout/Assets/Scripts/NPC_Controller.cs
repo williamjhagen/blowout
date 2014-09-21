@@ -5,17 +5,23 @@ public class NPC_Controller : MonoBehaviour {
 	public float maxDX;
 	public float maxDY;	
 	public float maxMag;
-	ArrayList ObjectPool;
+	ArrayList InactiveObjs;
+	ArrayList ActiveObjs;   
+	public enum EnemyTypes{
+		Walker,
+		Flyer
+	}
 	// Use this for initialization
 	void Start () {
-		ObjectPool = new ArrayList ();
+		InactiveObjs = new ArrayList ();
+		ActiveObjs = new ArrayList ();
 		init ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		//update each object
-		foreach (GameObject e in ObjectPool) {
+		foreach (GameObject e in ActiveObjs) {
 			//get all behaviours on the object
 			Behaviour[] ba = e.GetComponents<Behaviour>();
 			//check if any are enabled
@@ -30,10 +36,29 @@ public class NPC_Controller : MonoBehaviour {
 
 	void init(){
 		//temp enemy for testing
-		ObjectPool.Add(GameObject.FindGameObjectWithTag("Enemy"));
-		GameObject.FindGameObjectWithTag ("Enemy").GetComponent<Behaviour> ().StartCoroutine ("UpdateState");
+		ActiveObjs.Add(GameObject.FindGameObjectWithTag("Enemy"));
+		GameObject.FindGameObjectWithTag ("Enemy").GetComponent<Flyer>().Init ();
 	}
 
+	public GameObject CreateRandomEnemy(){
+		bool walker = Random.value > .5f;
+		return null;
+	}
+
+	public GameObject CreateEnemy(Vector2 pos, EnemyTypes et){
+		if (InactiveObjs.Count == 0)
+			return null;
+		GameObject temp = (GameObject)InactiveObjs [0];
+		InactiveObjs.Remove (temp);
+		ActiveObjs.Add (temp);
+		temp.rigidbody2D.position = pos;
+		if (et == EnemyTypes.Walker)
+			temp.GetComponent<Walker> ().Init ();
+		else if (et == EnemyTypes.Flyer)
+			temp.GetComponent<Flyer> ().Init ();
+		return temp;
+		
+	}
 	//make sure no NPC moves faster than is reasonable to react to.
 	void ConstrainVelocity(GameObject g){
 		//first constrain overall velocity
@@ -45,13 +70,13 @@ public class NPC_Controller : MonoBehaviour {
 		//constrain velocity on horizontal
 		if (Mathf.Abs (g.rigidbody2D.velocity.x) > maxDX) {
 			Vector2 temp = g.rigidbody2D.velocity;
-			temp.x = maxDX;
+			temp.x = temp.x > 0 ? maxDX : -maxDX;
 			g.rigidbody2D.velocity = temp;
 		}
 		//constrain velocity on vertical
 		if (Mathf.Abs (g.rigidbody2D.velocity.y) > maxDY) {
 			Vector2 temp = g.rigidbody2D.velocity;
-			temp.y = maxDY;
+			temp.y = temp.y > 0 ? maxDY : -maxDY;
 			g.rigidbody2D.velocity = temp;
 		}
 	}

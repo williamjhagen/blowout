@@ -6,43 +6,21 @@ public class Walker : Behaviour {
 	private char dir = '.';
 	public float maxSpeed = 2f;
 	public float noChangeProb = .97f;
-	ArrayList DYPerFrames;
-	private bool grounded;
 	// Update is called once per frame
 	void Update () {
-		DYPerFrames.Add (0.0f);
 	}
 
 	void LateUpdate(){
 
 		}
-	void Start(){
-		DYPerFrames = new ArrayList ();
-		state = Behaviour.States.Attacking;
-		target = GameObject.FindGameObjectWithTag ("Player");
-		grounded = true;
+	void Awake(){
 	}
-	public override void Tick(){
-		//update grounded information
-		DYPerFrames.Insert (0, Mathf.Abs(rigidbody2D.velocity.y));
-		if (DYPerFrames.Count > 3)
-						DYPerFrames.RemoveAt (3);
-		if (!grounded) {
-			grounded = (ArrMax(DYPerFrames) < .00001f);
-		}
-		//update based on state
-		if (state == Behaviour.States.Idle) {
-			Idle ();
-		}
-		else if (state == Behaviour.States.Attacking) {
-			Attacking ();
-		}
-		else if (state == Behaviour.States.Boasting) {
-			Boasting ();
-		}
-		else if (state == Behaviour.States.Running) {
-			Running ();
-		}
+	public override void Init(){
+		rigidbody2D.gravityScale = 1;
+		state = Behaviour.States.Idle;
+		this.enabled = true;
+		target = GameObject.FindGameObjectWithTag ("Player");
+		StartCoroutine ("UpdateState");
 	}
 #region Idle
 	public override bool Idle(){

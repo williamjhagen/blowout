@@ -4,7 +4,7 @@ using System.Collections;
 public abstract class Behaviour : MonoBehaviour {
 	public bool active = false;
 	public float speed;
-	public GameObject target;
+	protected GameObject target;
 	public float threatRange;
 
 	public enum States{
@@ -14,16 +14,28 @@ public abstract class Behaviour : MonoBehaviour {
 		Running
 	}
 	public States state;
-
-	public abstract void Tick ();
-
-	public void Deactivate(){
-		active = false;
-		renderer.enabled = false;
-		Destroy (this);
+	
+	public void Tick(){
+		//update based on state
+		if (state == Behaviour.States.Idle) {
+			Idle ();
+		}
+		else if (state == Behaviour.States.Attacking) {
+			Attacking ();
+		}
+		else if (state == Behaviour.States.Boasting) {
+			Boasting ();
+		}
+		else if (state == Behaviour.States.Running) {
+			Running ();
+		}
 	}
 
+	public void Deactivate(){
+		this.enabled = false;
+	}
 
+	public abstract void Init();
 	public abstract bool Idle();
 	public abstract bool Attacking();
 	public abstract bool Boasting();

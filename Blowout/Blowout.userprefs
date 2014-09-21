@@ -1,9 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Walker.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Flyer.cs">
     <Files>
-      <File FileName="Assets\Scripts\Walker.cs" Line="20" Column="40" />
-      <File FileName="Assets\Scripts\Behaviour.cs" Line="11" Column="12" />
+      <File FileName="Assets\Scripts\Flyer.cs" Line="9" Column="27" />
+      <File FileName="Assets\Scripts\Walker.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Behaviour.cs" Line="53" Column="39" />
+      <File FileName="Assets\Scripts\NPC_Controller.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

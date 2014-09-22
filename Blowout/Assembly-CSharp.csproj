@@ -46,11 +46,38 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\BoosterScript.cs" />
+     <Compile Include="Assets\CameraControl.cs" />
+     <Compile Include="Assets\CameraFade.cs" />
+     <Compile Include="Assets\DestroyControl.cs" />
+     <Compile Include="Assets\Elementals\Scripts\OrbitCamera.cs" />
+     <Compile Include="Assets\Elementals\Scripts\TestParticles.cs" />
+     <Compile Include="Assets\GroundScript.cs" />
+     <Compile Include="Assets\HandControl.cs" />
+     <Compile Include="Assets\ParticalSystemControl.cs" />
+     <Compile Include="Assets\Script\Kinect\KinectImgControllers\DisplayColor.cs" />
+     <Compile Include="Assets\Script\Kinect\KinectImgControllers\DisplayDepth.cs" />
+     <Compile Include="Assets\Script\Kinect\KinectModelControllers\KinectModelControllerV2.cs" />
+     <Compile Include="Assets\Script\Kinect\KinectModelControllers\KinectPointController.cs" />
+     <Compile Include="Assets\Script\Kinect\KinectWrapper\DepthWrapper.cs" />
+     <Compile Include="Assets\Script\Kinect\KinectWrapper\DeviceOrEmulator.cs" />
+     <Compile Include="Assets\Script\Kinect\KinectWrapper\KinectEmulator.cs" />
+     <Compile Include="Assets\Script\Kinect\KinectWrapper\KinectInterop.cs" />
+     <Compile Include="Assets\Script\Kinect\KinectWrapper\KinectRecorder.cs" />
+     <Compile Include="Assets\Script\Kinect\KinectWrapper\KinectSensor.cs" />
+     <Compile Include="Assets\Script\Kinect\KinectWrapper\SkeletonWrapper.cs" />
      <Compile Include="Assets\Scripts\Behaviour.cs" />
      <Compile Include="Assets\Scripts\Flyer.cs" />
      <Compile Include="Assets\Scripts\KeyboardMovePlayer.cs" />
      <Compile Include="Assets\Scripts\NPC_Controller.cs" />
      <Compile Include="Assets\Scripts\Walker.cs" />
+     <Compile Include="Assets\WizardCalibrateLeft.cs" />
+     <Compile Include="Assets\fireballControl.cs" />
+     <Compile Include="Assets\fireballControlR.cs" />
+     <Compile Include="Assets\testScript.cs" />
+     <Compile Include="Assets\upBoosterScript.cs" />
+     <None Include="Assets\Asset\Shaders\Normal-Diffuse.shader" />
+     <None Include="Assets\Elementals\!Readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

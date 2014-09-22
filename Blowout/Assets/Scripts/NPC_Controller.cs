@@ -28,8 +28,16 @@ public class NPC_Controller : MonoBehaviour {
 			//check if any are enabled
 			foreach(Behaviour b in ba){
 				if(b.enabled){
-					b.Tick();
-					ConstrainVelocity(e);
+					if(b.state == Behaviour.States.Dead){
+						b.Deactivate();
+						ActiveObjs.Remove(e);
+						InactiveObjs.Add(e);
+						e.SetActive(false);
+					}
+					else{
+						b.Tick();
+						ConstrainVelocity(e);
+					}
 				}
 			}
 		}
@@ -98,7 +106,7 @@ public class NPC_Controller : MonoBehaviour {
 		while (true) {
 			timer += Time.deltaTime;
 			if(timer > spawnTime){
-				print(CreateRandomEnemy());
+				CreateRandomEnemy();
 				timer -= spawnTime;
 			}
 			yield return null;

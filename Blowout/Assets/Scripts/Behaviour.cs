@@ -11,7 +11,8 @@ public abstract class Behaviour : MonoBehaviour {
 		Idle,
 		Attacking, 
 		Boasting,
-		Running
+		Running,
+		Dead
 	}
 	public States state;
 	
@@ -56,6 +57,12 @@ public abstract class Behaviour : MonoBehaviour {
 				}
 			}
 			yield return state;
+		}
+	}
+	void OnCollisionEnter2D(Collision2D coll) {
+		if (coll.gameObject.tag == "Player") {
+			coll.gameObject.renderer.material.color = Color.red;
+			this.state = States.Dead;
 		}
 	}
 }

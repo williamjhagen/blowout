@@ -67,6 +67,7 @@
      <Compile Include="Assets\Script\Kinect\KinectWrapper\KinectSensor.cs" />
      <Compile Include="Assets\Script\Kinect\KinectWrapper\SkeletonWrapper.cs" />
      <Compile Include="Assets\Scripts\Behaviour.cs" />
+     <Compile Include="Assets\Scripts\Credits.cs" />
      <Compile Include="Assets\Scripts\Flyer.cs" />
      <Compile Include="Assets\Scripts\KeyboardMovePlayer.cs" />
      <Compile Include="Assets\Scripts\NPC_Controller.cs" />

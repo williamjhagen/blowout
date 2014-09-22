@@ -21,6 +21,7 @@ public class Walker : Behaviour {
 		this.enabled = true;
 		target = GameObject.FindGameObjectWithTag ("Player");
 		StartCoroutine ("UpdateState");
+		renderer.enabled = true;
 	}
 #region Idle
 	public override bool Idle(){

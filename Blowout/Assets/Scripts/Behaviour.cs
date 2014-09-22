@@ -36,6 +36,7 @@ public abstract class Behaviour : MonoBehaviour {
 	}
 
 	public abstract void Init();
+	//public abstract void CleanUp();
 	public abstract bool Idle();
 	public abstract bool Attacking();
 	public abstract bool Boasting();

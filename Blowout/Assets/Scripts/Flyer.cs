@@ -43,6 +43,7 @@ public class Flyer : Behaviour {
 		StartCoroutine ("CheckOffset");
 		StartCoroutine ("UpdateState");
 		this.enabled = true;
+		renderer.enabled = true;
 
 	}
 

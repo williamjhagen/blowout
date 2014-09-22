@@ -5,6 +5,9 @@ public class NPC_Controller : MonoBehaviour {
 	public float maxDX;
 	public float maxDY;	
 	public float maxMag;
+	public float floorHeight;
+	private float timer = 0;
+	public float spawnTime;
 	ArrayList InactiveObjs;
 	ArrayList ActiveObjs;   
 	public enum EnemyTypes{
@@ -13,8 +16,6 @@ public class NPC_Controller : MonoBehaviour {
 	}
 	// Use this for initialization
 	void Start () {
-		InactiveObjs = new ArrayList ();
-		ActiveObjs = new ArrayList ();
 		init ();
 	}
 	
@@ -35,14 +36,25 @@ public class NPC_Controller : MonoBehaviour {
 	}
 
 	void init(){
-		//temp enemy for testing
-		ActiveObjs.Add(GameObject.FindGameObjectWithTag("Enemy"));
-		GameObject.FindGameObjectWithTag ("Enemy").GetComponent<Flyer>().Init ();
+		InactiveObjs = new ArrayList ();
+		ActiveObjs = new ArrayList ();
+		GameObject[] e = GameObject.FindGameObjectsWithTag ("Enemy");
+		int len = e.Length;
+		for (int i = 0; i < len; ++i) {
+			InactiveObjs.Add(e[i]);
+			e[i].SetActive(false);
+		}
+		StartCoroutine ("SpawnEnemies");
 	}
 
 	public GameObject CreateRandomEnemy(){
 		bool walker = Random.value > .5f;
-		return null;
+		Vector2 pos = Vector2.zero;
+		Camera c = GameObject.FindGameObjectWithTag ("MainCamera").camera;
+		GameObject sp = GameObject.FindGameObjectWithTag ("SpawnPoint");
+		pos.x = sp.transform.position.x;
+		pos.y = sp.transform.position.y + (walker ? 0f : 9f);
+		return CreateEnemy (pos, (walker ? EnemyTypes.Walker : EnemyTypes.Flyer));
 	}
 
 	public GameObject CreateEnemy(Vector2 pos, EnemyTypes et){
@@ -50,6 +62,7 @@ public class NPC_Controller : MonoBehaviour {
 			return null;
 		GameObject temp = (GameObject)InactiveObjs [0];
 		InactiveObjs.Remove (temp);
+		temp.SetActive(true);
 		ActiveObjs.Add (temp);
 		temp.rigidbody2D.position = pos;
 		if (et == EnemyTypes.Walker)
@@ -78,6 +91,17 @@ public class NPC_Controller : MonoBehaviour {
 			Vector2 temp = g.rigidbody2D.velocity;
 			temp.y = temp.y > 0 ? maxDY : -maxDY;
 			g.rigidbody2D.velocity = temp;
+		}
+	}
+
+	IEnumerator SpawnEnemies(){
+		while (true) {
+			timer += Time.deltaTime;
+			if(timer > spawnTime){
+				print(CreateRandomEnemy());
+				timer -= spawnTime;
+			}
+			yield return null;
 		}
 	}
 }
